@@ -16,7 +16,11 @@
 .mainnb .navbar-brand {
   display: flex;
   align-items: center;
-  
+
+}
+
+.butoesC {
+  padding: 0 21% 0 21%;
   
 }
 
