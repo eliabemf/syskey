@@ -1,0 +1,27 @@
+
+.chaves{
+    padding: 0% 0.7% 2% 0%;
+    
+    
+}
+.chax{
+    margin: 0% 0% 2% 0;
+    
+}
+.num{
+    font-size: 10px;
+    
+}
+
+.mainnb .navbar-brand {
+  display: flex;
+  align-items: center;
+  
+  
+}
+
+.mainnb .navbar-brand>img {
+  padding: 7px 14px;
+  
+  
+}

@@ -7,7 +7,7 @@ function startLogin($login, $senha) {
 // session_start inicia a sessão
     session_name(md5("seg" . $_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_USER_AGENT']));
 
-    session_cache_expire(10);
+  //  session_cache_expire(10);
 
     session_start();
 
@@ -27,13 +27,20 @@ function startLogin($login, $senha) {
      */
 
     if ($result->num_rows > 0) {
-        $_SESSION['login'] = $login;
-        $_SESSION['senha'] = $senha;        
+        //Insere os campos do usuario do banco de dados com a variavel $row
+        $row = $result->fetch_assoc();
+        
+        $_SESSION['usuarios'] = $login;
+        $_SESSION['senha'] = $senha; 
+        $_SESSION['permissao'] = $row['permissao'];
+        $_SESSION['nome'] = $row['nome'];
 
         header('location:../_chaves/chavesMenu.php');
     } else {
-        unset($_SESSION['login']);
+        unset($_SESSION['usuarios']);
         unset($_SESSION['senha']);
+        unset($_SESSION['permissao']); 
+        unset($_SESSION['nome']); 
         
         print("Erro ao se Logar.");
     }
@@ -49,16 +56,19 @@ function verificarLogin() {
      */
     session_name(md5("seg" . $_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_USER_AGENT']));
 
-    session_cache_expire(100);
+ //   session_cache_expire(100);
 
     session_start();
 
-    if (isset($_SESSION['login']) and isset($_SESSION['senha']) and isset($_SESSION['usuario'])) {
-        return $_SESSION['login'];
+    if (isset($_SESSION['usuarios']) and isset($_SESSION['senha']) and isset($_SESSION['permissao']) and isset($_SESSION['nome'])) {
+        
+        return [$_SESSION['usuarios'],$_SESSION['permissao'],$_SESSION['nome']];
         
     } else {
-        unset($_SESSION['login']);
+        unset($_SESSION['usuarios']);
         unset($_SESSION['senha']);
+        unset($_SESSION['permissao']);
+        unset($_SESSION['nome']); 
         
         header('location:../index.php');
     }

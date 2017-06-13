@@ -1,9 +1,23 @@
 <?php
 require_once '../_dao/daoseguranca.php';
-require_once '../cabecalho.php';
+require_once './locacoesAnt.php';
 
-//verificarLogin();
+$usuario = verificarLogin();
+
+/*
+ * Na variavel 
+ * $usuario[0] -> esta o username
+ * $usuario[1] -> esta a permissao do usuario
+ * $usuario[2] -> nome Do usuario
+ *
+ * verificação de usuario padrão ou de Admin
+ * No campo 'permissao' do bd
+ * Admin = 1
+ * Usuario normal = 2
+ */
 ?>
+
+
 
 <html>
     <head>
@@ -15,12 +29,23 @@ require_once '../cabecalho.php';
         <!-- imports genericos -->
         <link href="../_bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet">
 
+        <link href="../_bootstrap-3.3.7-dist/css/chavesMenu.css" rel="stylesheet">
 
         <!-- imports para se fazer a seleção das chaves por meio do JQuery -->
 
-        <link href="chavesMenu.css" rel="stylesheet">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script> 
+
+        <script src="../_bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+
+
 
         <script>
+
+            $(function () {
+                $('[data-toggle="tooltip"]').tooltip({html: true})
+            });
+
+
             /* 
              * function loc(id, chave1, selec, stats,edit)
              * 
@@ -32,7 +57,15 @@ require_once '../cabecalho.php';
              * stats : determina se a chave esta locada ou não. paramentro passado do BD
              * edit : para regulamentar q apenas uma chave por vez pode ser editada
              * 
-             * */
+             */
+
+
+            /*
+             * Controla a disponibilidade do botton "Informções"
+             * que serve para mostrar informações sobre a locação sobre as 
+             * chaves selecionadas
+             */
+            var info = 0;
 
             //Controla a disponibilidade do botão editar
             var editar = 0;
@@ -66,26 +99,30 @@ require_once '../cabecalho.php';
             var quantChavSelec = 0;
             var devLoc = 0;
 
-            function loc(id, chave1, selec, stats) {
+            function loc(id, chave1, selec, stats, perm, usuario, locacoes1) {
+
+                $(function () {
+                    $('[data-toggle="tooltip"]').tooltip({html: true} )
+                });
+
                 var chave = new String(chave1);
+                var usu = new String(usuario);
+                var locacoes = new String(locacoes1);
 
                 if (stats == 0) {
 
                     if (selec == 0) {
 
-                        document.getElementById(id).innerHTML = "<button value=\"1\" name=\"" + id + "\" onclick=\"loc(" + id + ",'" + chave + "',1," + stats + "  )\" class=\"btn btn-primary\" type=\"button\"  >" +
+                        document.getElementById(id).innerHTML = "<button value=\"1\" name=\"" + id + "\" onclick=\"loc(" + id + ",'" + chave + "',1," + stats + "," + perm + ",'" + usu + "','" + locacoes + "')\" class=\"btn btn-primary\" type=\"button\" data-toggle=\"tooltip\" title=\"" + locacoes + "\" data-placement=\"bottom\" >" +
                                 "   <div > " +
                                 "   <input type=\"hidden\" value=\"" + id + "\" name=\"" + id + "\" id=\"" + id + "\" />" +
                                 "   <img src=\"../_img/chaveLocada.png\"  width=\"100%\"/>" +
                                 "   </div> " +
-                                "   <div> " + chave + "   </div> " +
+                                "   <div> " + chave + "</div>" +
                                 " </button> ";
-
-
-
                     } else {
 
-                        document.getElementById(id).innerHTML = "<button value=\"0\" name=\"" + id + "\" onclick=\"loc(" + id + ",'" + chave + "',0," + stats + "  )\" class=\"btn btn-success\" type=\"button\"  >" +
+                        document.getElementById(id).innerHTML = "<button value=\"0\" name=\"" + id + "\" onclick=\"loc(" + id + ",'" + chave + "',0," + stats + "," + perm + ",'" + usu + "','" + locacoes + "' )\" class=\"btn btn-success\" type=\"button\" data-toggle=\"tooltip\" title=\"" + locacoes + "\" data-placement=\"bottom\" >" +
                                 "   <div > " +
                                 "   <img src=\"../_img/chaveNaoLocada.png\"  width=\"100%\"/>" +
                                 "   </div> " +
@@ -95,18 +132,13 @@ require_once '../cabecalho.php';
 // Controla o botão editar para que se ele se abilite e desabilite
 
                     }
-
-                    buttonEdit(selec);
-                    buttonCadastrar(selec);
-                    buttonExcluir(selec);
                     buttonLocar(selec);
-                    validarLocarDev();
 
                 } else {
 
                     if (selec == 0) {
 
-                        document.getElementById(id).innerHTML = "<button value=\"2\" name=\"" + id + "\" onclick=\"loc(" + id + ",'" + chave + "',1," + stats + "  )\" class=\"btn btn-warning\" type=\"button\"  >" +
+                        document.getElementById(id).innerHTML = "<button value=\"2\" name=\"" + id + "\" onclick=\"loc(" + id + ",'" + chave + "',1," + stats + "," + perm + ",'" + usu + "','" + locacoes + "')\" class=\"btn btn-warning\" type=\"button\"  data-toggle=\"tooltip\" title=\"" + locacoes + "\" data-placement=\"top\" >" +
                                 "   <div >" +
                                 "   <input type=\"hidden\" value=\"" + id + "\" name=\"" + id + "\" id=\"" + id + "\" />     " +
                                 "   <img src=\"../_img/chaveLocada.png\"  width=\"100%\"/>" +
@@ -119,7 +151,7 @@ require_once '../cabecalho.php';
 
                     } else {
 
-                        document.getElementById(id).innerHTML = "<button value=\"0\" name=\"" + id + "\" onclick=\"loc(" + id + ",'" + chave + "',0," + stats + "  )\" class=\"btn\" type=\"button\"  >" +
+                        document.getElementById(id).innerHTML = "<button value=\"0\" name=\"" + id + "\" onclick=\"loc(" + id + ",'" + chave + "',0," + stats + "," + perm + ",'" + usu + "','" + locacoes + "' )\" class=\"btn\" type=\"button\"  data-toggle=\"tooltip\" title=\"" + locacoes + "\" data-placement=\"top\"  >" +
                                 "   <div > " +
                                 "   <img src=\"../_img/chaveNaoLocada.png\"  width=\"100%\"/>" +
                                 "   </div> " +
@@ -129,17 +161,52 @@ require_once '../cabecalho.php';
                                 " </button> ";
                     }
 
-
                     buttonDevolv(selec);
+
+                }
+
+                validarLocarDev();
+                validarInformacoes(selec);
+
+                if (perm == 1) {
                     buttonEdit(selec);
-                    buttonExcluir(selec);
                     buttonCadastrar(selec);
-                    validarLocarDev();
+                    buttonExcluir(selec);
+
                 }
             }
 
 // Habilitar butões
 
+            //Button Informacoes
+            function validarInformacoes(selec) {
+
+                if (selec == 0) {
+                    if (info == 0) {
+
+                        info += 1;
+                        document.getElementById("info").innerHTML = " <input name=\"info@chave\" class=\"btn btn-danger chax\" type=\"submit\" value=\"Informações\" />";
+
+                    } else {
+                        info += 1;
+                    }
+
+                } else {
+
+                    info -= 1;
+                    if (info > 0) {
+                        document.getElementById("info").innerHTML = " <input name=\"info@chave\" class=\"btn btn-danger chax\" type=\"submit\" value=\"Informações\" />";
+
+                    } else {
+                        document.getElementById("info").innerHTML = " <input name=\"info@chave\" class=\"btn btn-danger chax\" type=\"submit\" value=\"Informações\" disabled />";
+
+                    }
+                }
+
+
+            }
+
+            // Button Editar
             function buttonEdit(select) {
 
                 if (select == 0) {
@@ -235,7 +302,6 @@ require_once '../cabecalho.php';
                         document.getElementById("devolv").innerHTML = "  <input name=\"dev@chave\" class=\"btn btn-danger chax\" type=\"submit\" value=\"Devolver\" disabled/>";
                     }
                 }
-
             }
 
             function buttonCadastrar(selec) {
@@ -277,71 +343,54 @@ require_once '../cabecalho.php';
     <body>
 
         <header>
-            <p>Cabecalho</p>
+            <div class="container mainnb ">
+                <nav class="navbar navbar-default" >
+                    <div class="container-fluid ">
+                        <div class="navbar-header ">
+                            <a class="navbar-brand">
+                                <img style="width: 50%;" src="../_img/logoufrn.png" alt="Syskey"/>
+                                <p>Syskey</p>
+                            </a>
+                        </div>
+                        <div class="navbar-collapse collapse">
+                            <ul class="nav navbar-nav navbar-right">
+                                <li><p class="navbar-text"> <?php echo "Olá, <b> $usuario[2] </b>"; ?></p></li>
+                                <li><a href="../_dao/logout.php">Sair</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            </div>
         </header>
 
-        <nav>
-            <p>Menu de navegação</p>
-        </nav>
 
         <section>
 
-            <div class="container">
-                <div class="col-xs-12 ">
-                    <div>
+            <div class="container mainnb ">
 
-                        <h2>Chaves</h2>
-                        
-                    </div>
+                <div>
 
-                    <div class="jumbotron col-xs-12 col-sm-12"> 
-
-                        <form <form method="post" action="chavesLocarDesLocar.php"  >
-
-                                <div class="container" >
-
-                                    <div id="loc" class="btn" >
-
-                                        <input name="loc@chave" class="btn btn-danger chax" type="submit" value="Locar"  disabled/>
-
-                                    </div>
-
-                                    <div id="devolv" class="btn" >
-
-                                        <input name="dev@chave" class="btn btn-danger chax" type="submit" value="Devolver"  disabled/>
-
-                                    </div>
-
-
-                                    <div id="cadastrar" class="btn" >
-
-                                        <input name="cadt@chv" class="btn btn-danger chax" type="submit" value="Cadastrar"/>
-
-                                    </div>
-
-                                    <div id="edit" class="btn">
-
-                                        <input name="editar" class="btn btn-danger chax" type="submit" value="Editar" disabled/>
-
-                                    </div>
-
-                                    <div id="excluir" class="btn">
-
-                                        <input name="excluir" class="btn btn-danger chax" type="submit" value="Excluir" disabled/>
-
-                                    </div>
-                                </div>
-
-                                <fieldset>
-
-                                    <?php chaves(); ?>
-
-                                </fieldset>
-
-                            </form>
-                    </div>
+                    <h2>Chaves</h2>
 
                 </div>
+
+                <form method="post" action="chavesLocarDesLocar.php"  >
+
+                    <?php buttons($usuario); ?>
+
+                    <div class="jumbotron"> 
+
+                        <fieldset>
+
+                            <?php chaves($usuario); ?>
+
+                        </fieldset>
+
+                    </div>
+                </form>
+
+
+
 
 
                 <table class="table">
@@ -349,27 +398,85 @@ require_once '../cabecalho.php';
                         <th> Chave </th>
                         <th> Locador </th>
                         <th> Horario </th>
+                        <th> Usuario </th>
                     </tr>
 
                     <?php chaveLocada(); ?>
 
                 </table>
 
+            </div>
+
         </section>
 
-
     </body>
-
 
 </html>
 
 <?php
 
-function chaves() {
+function buttons($usuario) {
+
+    //Admin
+    if ($usuario[1] == 1) {
+
+        echo " 
+    <div class=\"container col-xs-offset-3\" >
+        <div id=\"loc\" class=\"btn\" >
+            <input name=\"loc@chave\" class=\"btn btn-danger chax\" type=\"submit\" value=\"Locar\"  disabled/>
+        </div>
+        
+        <div id=\"devolv\" class=\"btn\">
+            <input name=\"dev@chave\" class=\"btn btn-danger chax\" type=\"submit\" value=\"Devolver\"  disabled/>
+        </div>
+        
+        <div id=\"cadastrar\" class=\"btn\" >
+            <input name=\"cadt@chv\" class=\"btn btn-danger chax\" type=\"submit\" value=\"Cadastrar\"/>
+        </div>
+        
+        <div id=\"edit\" class=\"btn\">
+            <input name=\"editar\" class=\"btn btn-danger chax\" type=\"submit\" value=\"Editar\" disabled/>
+        </div>
+        
+        <div id=\"excluir\" class=\"btn\">
+            <input name=\"excluir\" class=\"btn btn-danger chax\" type=\"submit\" value=\"Excluir\" disabled/>
+        </div>
+        
+        <div id=\"info\" class=\"btn\">
+            <input name=\"info@chave\" class=\"btn btn-danger chax\" type=\"submit\" value=\"Informações\"  disabled/>
+        </div> 
+
+    </div>";
+
+        // Usuario normal
+    } else if ($usuario[1] == 2) {
+
+        echo "                    
+
+    <div class=\"container  col-xs-offset-4\" >
+        <div id=\"loc\" class=\"btn\" >
+            <input name=\"loc@chave\" class=\"btn btn-danger chax\" type=\"submit\" value=\"Locar\"  disabled/>
+        </div>
+        
+        <div id=\"devolv\" class=\"btn\">
+            <input name=\"dev@chave\" class=\"btn btn-danger chax\" type=\"submit\" value=\"Devolver\"  disabled/>
+        </div>
+        
+        <div id=\"info\" class=\"btn\">
+            <input name=\"info@chave\" class=\"btn btn-danger chax\" type=\"submit\" value=\"Informações\"  disabled/>
+        </div>  
+    </div>";
+    }
+}
+
+function chaves($usuario) {
+
+
 // conectar com o bando de dados.
     $con = conexao();
+
 // A variavel $result pega as varias $login e $senha, faz uma pesquisa na tabela de usuarios
-    $sql = "SELECT * FROM chaves";
+    $sql = "SELECT * FROM chaves ORDER BY chave ASC";
 
     $result = $con->query($sql);
 
@@ -380,10 +487,21 @@ function chaves() {
             // delimita o tamanho maximo do nome da chave q ira apararecer na tela, no caso são 7 charater 
             $e = substr($row["chave"], 0, 6);
 
+            /*
+             * Se a chave estiver locada a funcao 'locacoesAnteriores' 
+             * regata o nome da pessoa que locou a chave e coloca na variavel
+             * é mostrado apenas quando a chave for locada
+             * quando a cahve não estiver locada o campo fica vazio
+             */
+            if ($row["status"] == 1) {
+                $locacoesAnt = locacoesAnteriores($row["idchave"],$con);
+            } else {
+                $locacoesAnt = "asdasds";
+            }
             if ($row["status"] == 0) {
 
                 echo "      <div id=\"" . $row["idchave"] . "\"  class=\"chaves col-sm-1 col-xs-3\">  
-                                <button value=\"0\" name=\"" . $row["idchave"] . "\"  onclick=\"loc(" . $row["idchave"] . ",'" . $e . "',0," . $row["status"] . ")\" class=\"btn btn-success\" type=\"button\"  >
+                                <button value=\"0\" name=\"" . $row["idchave"] . "\"  onclick=\"loc(" . $row["idchave"] . ",'" . $e . "',0," . $row["status"] . "," . $usuario[1] . ",'" . $usuario[2] . "','" . $locacoesAnt . "')\" class=\"btn btn-success\" type=\"button\"  data-toggle=\"tooltip\" title=\"" . $locacoesAnt . "\"  data-placement=\"bottom\"  >
                                 
                                     <div>
                                     <img src=\"../_img/chaveNaoLocada.png\"  width=\"100%\"/>  
@@ -396,7 +514,7 @@ function chaves() {
             } else {
 
                 echo "      <div id=\"" . $row["idchave"] . "\"  class=\"chaves col-sm-1 col-xs-3 \">  
-                                <button value=\"0\" name=\"" . $row["idchave"] . "\" onclick=\"loc(" . $row["idchave"] . ",'" . $e . "',0," . $row["status"] . ")\" class=\"btn\" type=\"button\"  >
+                                <button value=\"0\" name=\"" . $row["idchave"] . "\" onclick=\"loc(" . $row["idchave"] . ",'" . $e . "',0," . $row["status"] . "," . $usuario[1] . ",'" . $usuario[2] . "','" . $locacoesAnt . "')\" class=\"btn\" type=\"button\"  data-toggle=\"tooltip\" title=\"" . $locacoesAnt . "\"  data-placement=\"top\"  >
                                    
                                     <div>
                                     <img src=\"../_img/chaveNaoLocada.png\"  width=\"100%\"/>  
@@ -419,7 +537,7 @@ function chaveLocada() {
 // conectar com o bando de dados.
     $con = conexao();
 // A variavel $result pega as varias $login e $senha, faz uma pesquisa na tabela de usuarios
-    $sql = "SELECT * FROM locacao";
+    $sql = "SELECT * FROM locacao ORDER BY horaPeg ASC ";
 
     $result = $con->query($sql);
 
@@ -430,18 +548,16 @@ function chaveLocada() {
             // delimita o tamanho maximo do nome da chave q ira apararecer na tela, no caso são 7 charater 
             // $e = substr($row["chave"], 0, 6);
 
-            if ($row["statusLoc"] == 1) {
+            $sql = "SELECT * FROM chaves WHERE idchave=" . $row["idChave"];
+            $result2 = $con->query($sql);
+            $row2 = $result2->fetch_assoc();
 
-                $sql = "SELECT * FROM chaves WHERE idchave=" . $row["idChave"];
-                $result2 = $con->query($sql);
-                $row2 = $result2->fetch_assoc();
-
-                echo " <tr>
-                            <td>" . $row2["chave"] . " </td>
-                            <td>" . $row["nomeLocador"] . "</td>
-                            <td> " . $row["horaPeg"] . "</td>
-                        </tr>      ";
-            }
+            echo " <tr>
+                        <td>" . $row2["chave"] . "</td>
+                        <td>" . $row["nomeLocador"] . "</td>
+                        <td> " . $row["horaPeg"] . "</td>
+                        <td> " . $row["usuarioPeg"] . "</td>
+                    </tr>";
         }
     } else {
         echo " ";
