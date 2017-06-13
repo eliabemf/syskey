@@ -2,20 +2,6 @@
 
 require_once '../_dao/daoseguranca.php';
 
-$usuario = verificarLogin();
-
-/*
- * Na variavel 
- * $usuario[0] -> esta o username
- * $usuario[1] -> esta a permissao do usuario
- * $usuario[2] -> nome Do usuario
- *
- * verificação de usuario padrão ou de Admin
- * No campo 'permissao' do bd
- * Admin = 1
- * Usuario normal = 2
- */
-
 // conectar com o bando de dados.
 $con = conexao();
 
@@ -35,7 +21,7 @@ foreach ($_POST as $nome => $id) {
 
     $chaves[$tam][1] = $id;
 
-//  echo $chaves[$tam][0] . "   " . $chaves[$tam][1] . "<br>";
+//    echo $chaves[$tam][0] . "   " . $chaves[$tam][1] . "<br>";
 
     $tam++;
 }
@@ -65,9 +51,9 @@ if ($chaves[0][0] == "dev@chave" && $chaves[0][1] == "Devolver") {
     for ($j = 1; $j < $tam; $j++) {
 
         // A variavel $result pega as varias $login e $senha, faz uma pesquisa na tabela de usuarios
-        //  $sql = "DELETE FROM `locacao` WHERE `idchave`=" . $chaves[$j][0];
+        $sql = "DELETE FROM `locacao` WHERE `idchave`=" . $chaves[$j][0];
 
-        //  $result = $con->query($sql);
+        $result = $con->query($sql);
         
         $sql = "UPDATE `chaves` SET `status`=0  WHERE `idchave`=" . $chaves[$j][0];
     
@@ -103,29 +89,7 @@ if ($chaves[0][0] == "dev@chave" && $chaves[0][1] == "Devolver") {
 
                 $sql = "UPDATE `chaves` SET status=0 WHERE `idchave` = " . $chaves[$j][1];
 
-                $sql2 = "DELETE FROM `locacao` WHERE `idchave`=" . $chaves[$j][1]; 
-                
-        /*
-         * 
-         * 
-         * 
-         * 
-         * 
-         * 
-         * Fazer um procedimoento para que os dados sejam
-         * salvos no Banco de daos na tabela 'loglocacoes'
-         * 
-         * 
-         *  Trabalho de BD
-         * 
-         * 
-         * 
-         */
-                
-                
-                
-                
-                
+                $sql2 = "DELETE FROM `locacao` WHERE `idchave`=" . $chaves[$j][1];
             }
 
             $con->query($sql);
@@ -211,31 +175,13 @@ else if ($chaves[1][0] == "loc@chaves!!" && $chaves[1][1] == "Locar") {
     for ($j = 2; $j < $tam; $j++) {
 
         // A variavel $result pega as varias $login e $senha, faz uma pesquisa na tabela de usuarios
-        $sql = "INSERT INTO `locacao`(`idChave`,`nomeLocador`, `horaPeg`,`usuarioPeg`) VALUES ('" . $chaves[$j][0] . "', '" . $chaves[0][1] . "','" . date("Y-m-d H:i:s") . "','".$usuario[2]."')";
+        $sql = "INSERT INTO `locacao`(`idChave`,`nomeLocador`, `horaPeg`) VALUES ('" . $chaves[$j][0] . "', '" . $chaves[0][1] . "','" . date("Y-m-d H:i:s") . "')";
 
         $result = $con->query($sql);
         
         $sql = "UPDATE `chaves` SET `status`=1  WHERE `idchave`=" . $chaves[$j][0];
     
         $result = $con->query($sql);
-        
-        /*
-         * 
-         * 
-         * 
-         * 
-         * 
-         * 
-         * Fazer um procedimoento para que os dados sejam
-         * salvos no Banco de daos na tabela 'loglocacoes'
-         * 
-         * 
-         *  Trabalho de BD
-         * 
-         * 
-         * 
-         */
-        
     }
 
     $con->close();

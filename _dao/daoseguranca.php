@@ -27,20 +27,13 @@ function startLogin($login, $senha) {
      */
 
     if ($result->num_rows > 0) {
-        //Insere os campos do usuario do banco de dados com a variavel $row
-        $row = $result->fetch_assoc();
-        
         $_SESSION['usuarios'] = $login;
-        $_SESSION['senha'] = $senha; 
-        $_SESSION['permissao'] = $row['permissao'];
-        $_SESSION['nome'] = $row['nome'];
+        $_SESSION['senha'] = $senha;        
 
         header('location:../_chaves/chavesMenu.php');
     } else {
         unset($_SESSION['usuarios']);
         unset($_SESSION['senha']);
-        unset($_SESSION['permissao']); 
-        unset($_SESSION['nome']); 
         
         print("Erro ao se Logar.");
     }
@@ -60,15 +53,13 @@ function verificarLogin() {
 
     session_start();
 
-    if (isset($_SESSION['usuarios']) and isset($_SESSION['senha']) and isset($_SESSION['permissao']) and isset($_SESSION['nome'])) {
+    if (isset($_SESSION['usuarios']) and isset($_SESSION['senha']) ) {
         
-        return [$_SESSION['usuarios'],$_SESSION['permissao'],$_SESSION['nome']];
+        return $_SESSION['usuarios'];
         
     } else {
         unset($_SESSION['usuarios']);
         unset($_SESSION['senha']);
-        unset($_SESSION['permissao']);
-        unset($_SESSION['nome']); 
         
         header('location:../index.php');
     }
