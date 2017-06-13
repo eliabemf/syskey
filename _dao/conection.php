@@ -12,7 +12,7 @@ function conexao() {
 
 // Check connection
     if ($conn->connect_error) {
-        header("location:../_igreja/igrejamenu.php");
+        header("location:../index.php");
     } else
         return $conn;
 }
