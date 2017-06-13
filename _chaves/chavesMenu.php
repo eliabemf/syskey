@@ -35,10 +35,10 @@ $usuario = verificarLogin();
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script> 
 
-        
+
         <script src="../_jQuery v3.1.0/jQuery v3.1.0.js"></script> 
-      
-        
+
+
         <script src="../_bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
 
 
@@ -106,7 +106,7 @@ $usuario = verificarLogin();
             function loc(id, chave1, selec, stats, perm, usuario, locacoes1) {
 
                 $(function () {
-                    $('[data-toggle="tooltip"]').tooltip({html: true} )
+                    $('[data-toggle="tooltip"]').tooltip({html: true})
                 });
 
                 var chave = new String(chave1);
@@ -189,7 +189,7 @@ $usuario = verificarLogin();
                     if (info == 0) {
 
                         info += 1;
-                        document.getElementById("info").innerHTML = " <input name=\"info@chave\" class=\"btn btn-danger chax\" type=\"submit\" value=\"Informações\" />";
+                        document.getElementById("info").innerHTML = "<img  src=\"../_img/rela.png\" alt=\"Syskey\"/> <br> <input name=\"info@chave\" class=\"btn btn-danger chax\" type=\"submit\" value=\"Informações\" />";
 
                     } else {
                         info += 1;
@@ -199,10 +199,10 @@ $usuario = verificarLogin();
 
                     info -= 1;
                     if (info > 0) {
-                        document.getElementById("info").innerHTML = " <input name=\"info@chave\" class=\"btn btn-danger chax\" type=\"submit\" value=\"Informações\" />";
+                        document.getElementById("info").innerHTML = "<img  src=\"../_img/rela.png\" alt=\"Syskey\"/> <br> <input name=\"info@chave\" class=\"btn btn-danger chax\" type=\"submit\" value=\"Informações\" />";
 
                     } else {
-                        document.getElementById("info").innerHTML = " <input name=\"info@chave\" class=\"btn btn-danger chax\" type=\"submit\" value=\"Informações\" disabled />";
+                        document.getElementById("info").innerHTML = "<img  src=\"../_img/rela.png\" alt=\"Syskey\"/> <br> <input name=\"info@chave\" class=\"btn btn-danger chax\" type=\"submit\" value=\"Informações\" disabled />";
 
                     }
                 }
@@ -216,19 +216,19 @@ $usuario = verificarLogin();
                 if (select == 0) {
                     if (editar == 0) {
                         editar += 1;
-                        document.getElementById("edit").innerHTML = " <input name=\"editar\" class=\"btn btn-danger chax\" type=\"submit\" value=\"Editar\"/>";
+                        document.getElementById("edit").innerHTML = " <img  src=\"../_img/edtt.png\" alt=\"Syskey\"/> <br> <input name=\"editar\" class=\"btn btn-danger chax\" type=\"submit\" value=\"Editar\"/>";
 
                     } else {
                         editar += 1;
-                        document.getElementById("edit").innerHTML = " <input name=\"editar\" class=\"btn btn-danger chax\" type=\"submit\" value=\"Editar\" disabled/>";
+                        document.getElementById("edit").innerHTML = " <img  src=\"../_img/edtt.png\" alt=\"Syskey\"/> <br> <input name=\"editar\" class=\"btn btn-danger chax\" type=\"submit\" value=\"Editar\" disabled/>";
                     }
                 } else {
 
                     editar -= 1;
                     if (editar == 1) {
-                        document.getElementById("edit").innerHTML = " <input name=\"editar\" class=\"btn btn-danger chax\" type=\"submit\" value=\"Editar\"/>";
+                        document.getElementById("edit").innerHTML = " <img  src=\"../_img/edtt.png\" alt=\"Syskey\"/> <br> <input name=\"editar\" class=\"btn btn-danger chax\" type=\"submit\" value=\"Editar\"/>";
                     } else {
-                        document.getElementById("edit").innerHTML = " <input name=\"editar\" class=\"btn btn-danger chax\" type=\"submit\" value=\"Editar\" disabled/>";
+                        document.getElementById("edit").innerHTML = " <img  src=\"../_img/edtt.png\" alt=\"Syskey\"/> <br> <input name=\"editar\" class=\"btn btn-danger chax\" type=\"submit\" value=\"Editar\" disabled/>";
                     }
                 }
             }
@@ -239,7 +239,7 @@ $usuario = verificarLogin();
                     if (excluir == 0) {
 
                         excluir += 1;
-                        document.getElementById("excluir").innerHTML = " <input name=\"excluir@chv\" class=\"btn btn-danger chax\" type=\"submit\" value=\"Excluir\"/>";
+                        document.getElementById("excluir").innerHTML = "  <img  src=\"../_img/deletar.png\" alt=\"Syskey\"/> <br> <input name=\"excluir@chv\" class=\"btn btn-danger chax\" type=\"submit\" value=\"Excluir\"/>";
 
                     } else {
                         excluir += 1;
@@ -249,10 +249,10 @@ $usuario = verificarLogin();
 
                     excluir -= 1;
                     if (excluir > 0) {
-                        document.getElementById("excluir").innerHTML = " <input name=\"excluir@chv\" class=\"btn btn-danger chax\" type=\"submit\" value=\"Excluir\"/>";
+                        document.getElementById("excluir").innerHTML = " <img  src=\"../_img/deletar.png\" alt=\"Syskey\"/> <br> <input name=\"excluir@chv\" class=\"btn btn-danger chax\" type=\"submit\" value=\"Excluir\"/>";
 
                     } else {
-                        document.getElementById("excluir").innerHTML = " <input name=\"excluir@chv\" class=\"btn btn-danger chax\" type=\"submit\" value=\"Excluir\" disabled/>";
+                        document.getElementById("excluir").innerHTML = " <img  src=\"../_img/deletar.png\" alt=\"Syskey\"/> <br> <input name=\"excluir@chv\" class=\"btn btn-danger chax\" type=\"submit\" value=\"Excluir\" disabled/>";
 
                     }
                 }
@@ -264,7 +264,7 @@ $usuario = verificarLogin();
                     if (Locar == 0) {
                         Locar += 1;
 
-                        document.getElementById("loc").innerHTML = "  <input name=\"loc@chave\" class=\"btn btn-danger chax\" type=\"submit\" value=\"Locar\"/>";
+                        document.getElementById("loc").innerHTML = "<img src=\"../_img/locar.png\" alt=\"Syskey\"/> <br>  <input name=\"loc@chave\" class=\"btn btn-danger chax\" type=\"submit\" value=\"Locar\"/>";
 
                     } else {
                         Locar += 1;
@@ -275,10 +275,10 @@ $usuario = verificarLogin();
                     Locar -= 1;
                     if (Locar > 0) {
 
-                        document.getElementById("loc").innerHTML = "  <input name=\"loc@chave\" class=\"btn btn-danger chax\" type=\"submit\" value=\"Locar\" />";
+                        document.getElementById("loc").innerHTML = "<img src=\"../_img/locar.png\" alt=\"Syskey\"/> <br>  <input name=\"loc@chave\" class=\"btn btn-danger chax\" type=\"submit\" value=\"Locar\" />";
                     } else {
 
-                        document.getElementById("loc").innerHTML = "  <input name=\"loc@chave\" class=\"btn btn-danger chax\" type=\"submit\" value=\"Locar\" disabled/>";
+                        document.getElementById("loc").innerHTML = "<img src=\"../_img/locar.png\" alt=\"Syskey\"/> <br>  <input name=\"loc@chave\" class=\"btn btn-danger chax\" type=\"submit\" value=\"Locar\" disabled/>";
                     }
                 }
             }
@@ -289,7 +289,7 @@ $usuario = verificarLogin();
                     if (Dev == 0) {
                         Dev += 1;
 
-                        document.getElementById("devolv").innerHTML = "  <input name=\"dev@chave\" class=\"btn btn-danger chax\" type=\"submit\" value=\"Devolver\"/>";
+                        document.getElementById("devolv").innerHTML = " <img  src=\"../_img/devolv.png\" alt=\"Syskey\"/> <br>  <input name=\"dev@chave\" class=\"btn btn-danger chax\" type=\"submit\" value=\"Devolver\"/>";
 
                     } else {
                         Dev += 1;
@@ -300,10 +300,10 @@ $usuario = verificarLogin();
                     Dev -= 1;
                     if (Dev > 0) {
 
-                        document.getElementById("devolv").innerHTML = "  <input name=\"dev@chave\" class=\"btn btn-danger chax\" type=\"submit\" value=\"Devolver\" />";
+                        document.getElementById("devolv").innerHTML = "  <img  src=\"../_img/devolv.png\" alt=\"Syskey\"/> <br> <input name=\"dev@chave\" class=\"btn btn-danger chax\" type=\"submit\" value=\"Devolver\" />";
                     } else {
 
-                        document.getElementById("devolv").innerHTML = "  <input name=\"dev@chave\" class=\"btn btn-danger chax\" type=\"submit\" value=\"Devolver\" disabled/>";
+                        document.getElementById("devolv").innerHTML = "  <img  src=\"../_img/devolv.png\" alt=\"Syskey\"/> <br>  <input name=\"dev@chave\" class=\"btn btn-danger chax\" type=\"submit\" value=\"Devolver\" disabled/>";
                     }
                 }
             }
@@ -312,11 +312,11 @@ $usuario = verificarLogin();
 
                 if (selec == 0) {
                     cadastrar += 1;
-                    document.getElementById("cadastrar").innerHTML = "  <input name=\"cadt@chv\" class=\"btn btn-danger chax\" type=\"submit\" value=\"Cadastrar\" disabled/>";
+                    document.getElementById("cadastrar").innerHTML = " <img  src=\"../_img/cadastrar.png\" alt=\"Syskey\"/> <br>  <input name=\"cadt@chv\" class=\"btn btn-danger chax\" type=\"submit\" value=\"Cadastrar\" disabled/>";
                 } else {
                     cadastrar -= 1;
                     if (cadastrar == 0) {
-                        document.getElementById("cadastrar").innerHTML = "  <input name=\"cadt@chv\" class=\"btn btn-danger chax\" type=\"submit\" value=\"Cadastrar\"/>";
+                        document.getElementById("cadastrar").innerHTML = "  <img  src=\"../_img/cadastrar.png\" alt=\"Syskey\"/> <br>  <input name=\"cadt@chv\" class=\"btn btn-danger chax\" type=\"submit\" value=\"Cadastrar\"/>";
                     }
                 }
             }
@@ -324,17 +324,17 @@ $usuario = verificarLogin();
             function validarLocarDev() {
 
                 if (Dev != 0 && Locar != 0) {
-                    document.getElementById("loc").innerHTML = "  <input name=\"loc@chave\" class=\"btn btn-danger chax\" type=\"submit\" value=\"Locar\" disabled/>";
-                    document.getElementById("devolv").innerHTML = "  <input name=\"dev@chave\" class=\"btn btn-danger chax\" type=\"submit\" value=\"Devolver\" disabled/>";
+                    document.getElementById("loc").innerHTML = "  <img src=\"../_img/locar.png\" alt=\"Syskey\"/> <br> <input name=\"loc@chave\" class=\"btn btn-danger chax\" type=\"submit\" value=\"Locar\" disabled/> ";
+                    document.getElementById("devolv").innerHTML = " <img  src=\"../_img/devolv.png\" alt=\"Syskey\"/> <br>  <input name=\"dev@chave\" class=\"btn btn-danger chax\" type=\"submit\" value=\"Devolver\" disabled/>";
                 }
 
                 if (Locar > 0 && Dev == 0) {
-                    document.getElementById("loc").innerHTML = "  <input name=\"loc@chave\" class=\"btn btn-danger chax\" type=\"submit\" value=\"Locar\"/>";
+                    document.getElementById("loc").innerHTML = " <img src=\"../_img/locar.png\" alt=\"Syskey\"/> <br>  <input name=\"loc@chave\" class=\"btn btn-danger chax\" type=\"submit\" value=\"Locar\"/>";
 
                 }
                 if (Dev > 0 && Locar == 0) {
 
-                    document.getElementById("devolv").innerHTML = "  <input name=\"dev@chave\" class=\"btn btn-danger chax\" type=\"submit\" value=\"Devolver\" />";
+                    document.getElementById("devolv").innerHTML = " <img  src=\"../_img/devolv.png\" alt=\"Syskey\"/> <br>  <input name=\"dev@chave\" class=\"btn btn-danger chax\" type=\"submit\" value=\"Devolver\" />";
                 }
 
             }
@@ -427,26 +427,36 @@ function buttons($usuario) {
         echo " 
     <div class=\"butoesC\" >
         <div id=\"loc\" class=\"btn\" >
+            <img src=\"../_img/locar.png\" alt=\"Syskey\"/> <br>
+
             <input name=\"loc@chave\" class=\"btn btn-danger chax\" type=\"submit\" value=\"Locar\"  disabled/>
         </div>
         
         <div id=\"devolv\" class=\"btn\">
+            <img  src=\"../_img/devolv.png\" alt=\"Syskey\"/> <br>
             <input name=\"dev@chave\" class=\"btn btn-danger chax\" type=\"submit\" value=\"Devolver\"  disabled/>
+            
         </div>
         
         <div id=\"cadastrar\" class=\"btn\" >
+         <img  src=\"../_img/cadastrar.png\" alt=\"Syskey\"/> <br>
             <input name=\"cadt@chv\" class=\"btn btn-danger chax\" type=\"submit\" value=\"Cadastrar\"/>
         </div>
         
         <div id=\"edit\" class=\"btn\">
+         <img  src=\"../_img/edtt.png\" alt=\"Syskey\"/> <br>
             <input name=\"editar\" class=\"btn btn-danger chax\" type=\"submit\" value=\"Editar\" disabled/>
         </div>
         
         <div id=\"excluir\" class=\"btn\">
+         <img  src=\"../_img/deletar.png\" alt=\"Syskey\"/> <br>
             <input name=\"excluir\" class=\"btn btn-danger chax\" type=\"submit\" value=\"Excluir\" disabled/>
         </div>
         
         <div id=\"info\" class=\"btn\">
+        
+
+ <img  src=\"../_img/rela.png\" alt=\"Syskey\"/> <br>
             <input name=\"info@chave\" class=\"btn btn-danger chax\" type=\"submit\" value=\"Informações\"  disabled/>
         </div> 
 
@@ -459,14 +469,17 @@ function buttons($usuario) {
 
     <div class=\"col-xs-offset-4\" >
         <div id=\"loc\" class=\"btn\" >
+            <img src=\"../_img/locar.png\" alt=\"Syskey\"/> <br>
             <input name=\"loc@chave\" class=\"btn btn-danger chax\" type=\"submit\" value=\"Locar\"  disabled/>
         </div>
         
         <div id=\"devolv\" class=\"btn\">
+            <img  src=\"../_img/devolv.png\" alt=\"Syskey\"/> <br>
             <input name=\"dev@chave\" class=\"btn btn-danger chax\" type=\"submit\" value=\"Devolver\"  disabled/>
         </div>
         
         <div id=\"info\" class=\"btn\">
+            <img  src=\"../_img/rela.png\" alt=\"Syskey\"/> <br>
             <input name=\"info@chave\" class=\"btn btn-danger chax\" type=\"submit\" value=\"Informações\"  disabled/>
         </div>  
     </div>";
@@ -480,7 +493,9 @@ function chaves($usuario) {
     $con = conexao();
 
 // A variavel $result pega as varias $login e $senha, faz uma pesquisa na tabela de usuarios
-    $sql = "SELECT * FROM chaves ORDER BY chave ASC";
+
+    $sql = "SELECT * FROM chaves  ORDER BY chave ASC";
+
 
     $result = $con->query($sql);
 
@@ -489,7 +504,7 @@ function chaves($usuario) {
         while ($row = $result->fetch_assoc()) {
 
             // delimita o tamanho maximo do nome da chave q ira apararecer na tela, no caso são 7 charater 
-            $e = substr($row["chave"], 0, 6);
+            $e = substr($row["chave"], 0, 5);
 
             /*
              * Se a chave estiver locada a funcao 'locacoesAnteriores' 
@@ -497,9 +512,9 @@ function chaves($usuario) {
              * é mostrado apenas quando a chave for locada
              * quando a cahve não estiver locada o campo fica vazio
              */
-           
-            $locacoesAnt = locacoesAnteriores($row["idchave"],$con,$row["status"]);
-            
+
+            $locacoesAnt = locacoesAnteriores($row["idchave"], $con, $row["status"]);
+
             if ($row["status"] == 0) {
 
                 echo "      <div id=\"" . $row["idchave"] . "\"  class=\"chaves col-sm-1 col-xs-3\">  
@@ -536,10 +551,14 @@ function chaves($usuario) {
 
 function chaveLocada() {
 
-// conectar com o bando de dados.
+    // conectar com o bando de dados.
     $con = conexao();
-// A variavel $result pega as varias $login e $senha, faz uma pesquisa na tabela de usuarios
-    $sql = "SELECT * FROM locacao WHERE horaDev='0000-00-00 00:00:00' ORDER BY horaPeg ASC ";
+    // A variavel $result pega as varias $login e $senha, faz uma pesquisa na tabela de usuarios
+    //$sql = "SELECT * FROM locacao WHERE horaDev='0000-00-00 00:00:00' ORDER BY horaPeg ASC ";
+    // $sql = "CREATE OR REPLACE VIEW locadas AS SELECT * FROM locacao WHERE horaDev='0000-00-00 00:00:00' ORDER BY horaPeg ASC ";
+    //  $result = $con->query($sql);
+
+    $sql = "SELECT * FROM locadas";
 
     $result = $con->query($sql);
 
@@ -554,15 +573,17 @@ function chaveLocada() {
             $result2 = $con->query($sql);
             $row2 = $result2->fetch_assoc();
 
+         
+            
             echo " <tr>
                         <td>" . $row2["chave"] . "</td>
                         <td>" . $row["nomeLocador"] . "</td>
-                        <td> " . $row["horaPeg"] . "</td>
+                        <td> " . date("d/m/Y H:i:s",strtotime($row["horaPeg"])) . "</td>
                         <td> " . $row["usuarioPeg"] . "</td>
                     </tr>";
         }
     } else {
-        echo " ";
+        echo "";
     }
     $con->close();
 }

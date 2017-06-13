@@ -37,7 +37,7 @@ $chavesPassadas = array(array());
  * organizando-as desta forma
  * 'idChave=1 or idChave=2 or idChave=3'
  */
-$codSql = "";
+$codSql = " ";
 //Contador
 $i = 0;
 foreach ($chaves as $key) {
@@ -55,28 +55,18 @@ foreach ($chaves as $key) {
         $idKey = " idChave=" . $key[0];
     }
 
-    //user admin
-    if ($usuario[1] = 1) {
-        /*
-         * Insere o comando SQL 'or' entre duas idChave
-         * 'idChave=1 or idChave=2'
-         */
-        if (($i > 0 ) && $i < (count($chaves) - 1)) {
+    /*
+     * Insere o comando SQL 'or' entre duas idChave
+     * 'idChave=1 or idChave=2'
+     */
+    if (($i > 0 ) && ($i < (count($chaves) - 1))) {
 
-            $codSql = $idKey ;
-        }
-        
-    } else if ($usuario[1] = 2) {
+        $codSql = $codSql . "" . $idKey . " or ";
+    } else if ($i == (count($chaves) - 1)) {
 
-        if (($i > 0 ) && $i < (count($chaves) - 1)) {
-            //Delimita a quantidade de visualizações para as pessoas que pegaram as chaves 
-
-            $codSql = $codSql ." ( " . $idKey . " LIMIT 0,5 ) or ";
-        }
-        else{
-            $codSql = $codSql . $idKey . " LIMIT 0,5 ";
-        }
+        $codSql = $codSql . "" . $idKey;
     }
+
     $i += 1;
 }
 
@@ -89,7 +79,7 @@ $itens_por_pagina = 10;
 $con = conexao();
 
 //puxar produtos do banco de dados
-$sql = "SELECT * FROM loglocacao WHERE " . $codSql . " LIMIT " . $pagina * $itens_por_pagina . ", " . $itens_por_pagina;
+$sql = "SELECT * FROM loglocacao WHERE " . $codSql . " ORDER BY horaPeg DESC LIMIT " . $pagina * $itens_por_pagina . ", " . $itens_por_pagina;
 $sql_result = $con->query($sql) or die($con->error);
 
 $row = $sql_result->fetch_assoc();
@@ -118,6 +108,7 @@ $num_paginas = ceil($numrowsTotal / $itens_por_pagina);
         <link href="../_bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet">
 
         <link href="../_bootstrap-3.3.7-dist/css/chavesMenu.css" rel="stylesheet">
+        <link href="../_bootstrap-3.3.7-dist/css/inicio.css" rel="stylesheet">
 
         <!-- imports para se fazer a seleção das chaves por meio do JQuery -->
 
@@ -157,18 +148,32 @@ $num_paginas = ceil($numrowsTotal / $itens_por_pagina);
                 <div>
                     <div class="">
                         <div>
-                            <h2>Detalhes Sobre as Locações das Chaves</h2>
+
+                            <div class=" input-group-btn">
+                                <h2>Detalhes Sobre as Locações das Chaves</h2>
+                            </div>
+                            <div  class="input-group-btn" >
+                                <a href="chavesMenu.php" type="submit" class="form-control">
+                                    <div class="btnvolta">   Voltar 
+                                        <span  aria-hidden = "true" class="glyphicon glyphicon-home">
+
+                                        </span>
+                                    </div>
+                                </a>
+                            </div>
+
+
                         </div>
 
-                        <table class="table table-bordered table-hover ">
+                        <table class="table table-bordered table-hover " >
                             <thead>
                                 <tr>
                                     <th> Chave </th>
                                     <th> Locador </th>                                        
-                                    <th> Usuario Peg </th>                                        
-                                    <th> Horario Peg </th>
-                                    <th> Usuario Dev </th>
-                                    <th> Horario Dev</th>
+                                    <th> Usuario que Pegou </th>                                        
+                                    <th> Horario que Pegou </th>
+                                    <th> Usuario que Devolveu </th>
+                                    <th> Horario que Devolveu</th>
                                 </tr>
                             </thead>
                             <?php if ($numrows > 0) { ?>
@@ -187,9 +192,9 @@ $num_paginas = ceil($numrowsTotal / $itens_por_pagina);
                                             <td> <?php echo $row2['chave']; ?></td>
                                             <td> <?php echo $row['nomeLoc']; ?></td>
                                             <td> <?php echo $row['nomeUsuarioPeg']; ?></td>
-                                            <td> <?php echo $row['horaPeg']; ?></td>
+                                            <td> <?php echo date("d/m/Y H:i:s",strtotime($row['horaPeg'])); ?></td>
                                             <td> <?php echo $row['nomeUsuarioDev']; ?></td>
-                                            <td> <?php echo $row['horaDev']; ?></td>
+                                            <td> <?php echo date("d/m/Y H:i:s",strtotime($row['horaDev'])); ?></td>
                                         </tr>
 
                                         <?php
@@ -198,8 +203,8 @@ $num_paginas = ceil($numrowsTotal / $itens_por_pagina);
                                 </tbody>
                             </table>
 
-                            <nav aria-label="Page navigation">
-                                <ul class="pagination">
+                            <nav aria-label="Page navigation" >
+                                <ul class="pagination ">
 
                                     <!-- Botão '<-' mostra a primeira organização da tabela  -->
                                     <li>
@@ -251,8 +256,15 @@ $num_paginas = ceil($numrowsTotal / $itens_por_pagina);
                                             </span>
                                         </a>
                                     </li>
+
+
+
                                 </ul>
+
+
                             </nav>
+
+
                             <?php
                         }
                         ?>

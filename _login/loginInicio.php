@@ -5,7 +5,7 @@ require_once '../cabecalho.php';
 
 if (isset($_POST['logar'])) {
 
-    startLogin(htmlspecialchars($_POST['usuario'], ENT_QUOTES, 'UTF-8'), htmlspecialchars($_POST['senha'], ENT_QUOTES, 'UTF-8'));
+    startLogin( htmlspecialchars($_POST['usuario'], ENT_QUOTES, 'UTF-8'), md5(htmlspecialchars($_POST['senha'], ENT_QUOTES, 'UTF-8')));
 }
 ?>
 
@@ -16,6 +16,8 @@ if (isset($_POST['logar'])) {
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Chaves-EMCM</title>
 
+        
+        
         <?php imports(); ?>
 
     </head>

@@ -82,19 +82,33 @@ if ($chaves[0][0] == "dev@chave" && $chaves[0][1] == "Devolver") {
             date_default_timezone_set('America/Recife');
 
             if ($row["status"] == 1) {
-                
-                $data =  date("Y-m-d H:i:s");
 
-                $sql = "UPDATE `chaves` SET status=0 WHERE `idchave` =" . $chaves[$j][1];
+                $data = date("Y-m-d H:i:s");
+
+
+
+                // $sql = "UPDATE `chaves` SET status=0 WHERE `idchave` =" . $chaves[$j][1];
+
+                /*
+                 * DELIMITER $
+
+                  CREATE PROCEDURE  devolucaoChave(idC int)
+                  BEGIN
+                  UPDATE `chaves` SET status=0 WHERE `idchave` = idC;
+                  END
+                  $
+                 */
+
+                $sql = "UPDATE `chaves` SET status=0 WHERE `idchave` =" . $chaves[$j][1] ;
 
                 $sql2 = "UPDATE `locacao` SET horaDev='" . $data . "', usuarioDev='" . $usuario[2] . "'  WHERE `idChave`='" . $chaves[$j][1] . "' AND `horaDev`='0000-00-00 00:00:00'";
 
 
                 //atualizar o loglocacao
-                
+
                 $sql3 = "UPDATE `loglocacao` SET horaDev='" . $data . "', nomeUsuarioDev='" . $usuario[2] . "'  
                         WHERE `idChave`='" . $chaves[$j][1] . "' AND `horaDev`='0000-00-00 00:00:00'";
-            
+
                 /*
                  * 
                  * //  UPDATE `locacao` SET `horaDev`='2017-02-02 02:02:02'  WHERE `idChave`='21'  AND `horaDev`='0000-00-00 00:00:00'
@@ -170,15 +184,27 @@ else if ($chaves[0][0] == "editar" && $chaves[0][1] == "Editar") {
          */
 
         require_once 'editarChavesI.php';
+        
 
-        echo "Número chave:<br>
-            <input type=\"text\" name=\"numero@chave\" value=\"" . $row["chave"] . "\">
-            <br>
-            Departamento:<br>
-            <input type=\"text\" name=\"departamento\" value=\"" . $row["descricao"] . "\">
-            <br><br>
-            <input name=\"editar@chavesCHV\" type=\"submit\" value=\"Salvar\"> 
-            <input type=\"hidden\" value=\"" . $row["idchave"] . "\" name=\"" . $row["idchave"] . "\" />";
+
+       echo " <p>Nome/Numero da Chave:</p>  <input type=\"text\" name=\"numero@chave\" value=\"" . $row["chave"]. "\" class=\"form-control\" required>
+        <br>
+        <p>Departamento:</p>  <input type=\"text\" name=\"departamento\" value=\"". $row["descricao"]." \" class=\"form-control\">
+        <br>
+        <br>       
+
+        <div class=\" input-group-btn\"  style=\"padding: 0% 0% 0% 0%;\">
+            <input name=\"editar@chavesCHV\" type=\"submit\" value=\"Salvar\" class=\"form-control\">
+        </div>
+        <div  class=\"input-group-btn\"   style=\"padding: 0% 0% 0% 0%; \">
+            <a href=\"chavesMenu.php\" type=\"submit\" class=\"form-control\">
+                <div style=\"margin: 0% 0% 0% 35%;\">   Voltar
+                </div>
+            </a>
+        </div>
+        
+        <input type=\"hidden\" value=\"" . $row["idchave"] . "\" name=\"" . $row["idchave"] . "\" /> ";
+       
 
         require_once 'editarChavesII.php';
 

@@ -1,9 +1,10 @@
-<?php
-
-?>
+<?php ?>
 
 
-        </form> 
-
+                    </form> 
+                </div>
+            </div>
+        </section>
     </body>
 </html>
+
