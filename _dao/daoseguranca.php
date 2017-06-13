@@ -32,7 +32,6 @@ function startLogin($login, $senha) {
 
         header('location:../_chaves/chavesMenu.php');
     } else {
-
         unset($_SESSION['login']);
         unset($_SESSION['senha']);
         
@@ -55,13 +54,12 @@ function verificarLogin() {
     session_start();
 
     if (isset($_SESSION['login']) and isset($_SESSION['senha']) and isset($_SESSION['usuario'])) {
-
         return $_SESSION['login'];
         
     } else {
         unset($_SESSION['login']);
         unset($_SESSION['senha']);
-
+        
         header('location:../index.php');
     }
 }

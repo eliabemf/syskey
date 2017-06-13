@@ -17,11 +17,6 @@ require_once '../cabecalho.php';
 
 
         <!-- imports para se fazer a seleção das chaves por meio do JQuery -->
-        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">       
-        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-
-
 
         <link href="chavesMenu.css" rel="stylesheet">
 
@@ -42,11 +37,34 @@ require_once '../cabecalho.php';
             //Controla a disponibilidade do botão editar
             var editar = 0;
 
+            //Controla a disponibilidade do botão excluir
+            var excluir = 0;
+
+
             //Controla a disponibilidade do botão excluir e de locar e devolver q eles possuiem o mesmo padrão
-            var excluirLocar = 0;
+            var Locar = 0;
+
+            var Dev = 0;
 
             //COntrola a disponilidade de cadastrar uma nova chave
             var cadastrar = 0;
+
+            /*
+             * O ususario só pode devolver ou locar e não fazer os dois ao mesmo tempo
+             * A variavel "quantChavSelec" serve para contar quantas chaves foram selecionadas
+             * 
+             * A variavel "devLoc" serve para saber se é para devolver ou locar chaves
+             * Ela deve iniciar em 0 pois assim sabe-se que nem uma chave foi selecionada 
+             * e podendo auterar o seu estado atual para 1 ou 2
+             * sendo o estado 1 para devolver
+             * e estado 2 para locar
+             * Esta variavel só pode ser altarada o valor quando o seu valor atual for 0
+             * ele se será 0 quando não houver nenhuam chave selecionada
+             * então quando a varial "quantChaveSelec" for 0, não havera nenhuma chave selecionada 
+             * e podendo auterar o valor da variavel "devLoc"
+             */
+            var quantChavSelec = 0;
+            var devLoc = 0;
 
             function loc(id, chave1, selec, stats) {
                 var chave = new String(chave1);
@@ -57,15 +75,13 @@ require_once '../cabecalho.php';
 
                         document.getElementById(id).innerHTML = "<button value=\"1\" name=\"" + id + "\" onclick=\"loc(" + id + ",'" + chave + "',1," + stats + "  )\" class=\"btn btn-primary\" type=\"button\"  >" +
                                 "   <div > " +
-                                "   <input type=\"hidden\" value=\"1-" + id + "\" name=\"" + id + "\" id=\"" + id + "\" />" +
+                                "   <input type=\"hidden\" value=\"" + id + "\" name=\"" + id + "\" id=\"" + id + "\" />" +
                                 "   <img src=\"../_img/chaveLocada.png\"  width=\"100%\"/>" +
                                 "   </div> " +
                                 "   <div> " + chave + "   </div> " +
                                 " </button> ";
 
-                        buttonEditAbilitDesabilit(selec);
-                        buttonLocarDevolvExcluir(selec);
-                        buttonCadastrar(selec);
+
 
                     } else {
 
@@ -77,18 +93,22 @@ require_once '../cabecalho.php';
                                 " </button> ";
 
 // Controla o botão editar para que se ele se abilite e desabilite
-                        buttonEditAbilitDesabilit(selec);
-                        buttonLocarDevolvExcluir(selec);
-                        buttonCadastrar(selec);
 
                     }
+
+                    buttonEdit(selec);
+                    buttonCadastrar(selec);
+                    buttonExcluir(selec);
+                    buttonLocar(selec);
+                    validarLocarDev();
+
                 } else {
 
                     if (selec == 0) {
 
-                        document.getElementById(id).innerHTML = "<button value=\"2\" name=\"" + id + "\" onclick=\"loc(" + id + "," + chave + ",1," + stats + "  )\" class=\"btn btn-warning\" type=\"button\"  >" +
+                        document.getElementById(id).innerHTML = "<button value=\"2\" name=\"" + id + "\" onclick=\"loc(" + id + ",'" + chave + "',1," + stats + "  )\" class=\"btn btn-warning\" type=\"button\"  >" +
                                 "   <div >" +
-                                "   <input type=\"hidden\" value=\"2-" + id + "\" name=\"" + id + "\" id=\"" + id + "\" />     " +
+                                "   <input type=\"hidden\" value=\"" + id + "\" name=\"" + id + "\" id=\"" + id + "\" />     " +
                                 "   <img src=\"../_img/chaveLocada.png\"  width=\"100%\"/>" +
                                 "   </div> " +
                                 "   <div> " +
@@ -96,13 +116,10 @@ require_once '../cabecalho.php';
                                 "   </div> " +
                                 " </button> ";
 
-                        buttonEditAbilitDesabilit(selec);
-                        buttonLocarDevolvExcluir(selec);
-                        buttonCadastrar(selec);
 
                     } else {
 
-                        document.getElementById(id).innerHTML = "<button value=\"0\" name=\"" + id + "\" onclick=\"loc(" + id + "," + chave + ",0," + stats + "  )\" class=\"btn\" type=\"button\"  >" +
+                        document.getElementById(id).innerHTML = "<button value=\"0\" name=\"" + id + "\" onclick=\"loc(" + id + ",'" + chave + "',0," + stats + "  )\" class=\"btn\" type=\"button\"  >" +
                                 "   <div > " +
                                 "   <img src=\"../_img/chaveNaoLocada.png\"  width=\"100%\"/>" +
                                 "   </div> " +
@@ -110,15 +127,20 @@ require_once '../cabecalho.php';
                                 chave +
                                 "   </div> " +
                                 " </button> ";
-
-                        buttonEditAbilitDesabilit(selec);
-                        buttonLocarDevolvExcluir(selec);
-                        buttonCadastrar(selec);
                     }
+
+
+                    buttonDevolv(selec);
+                    buttonEdit(selec);
+                    buttonExcluir(selec);
+                    buttonCadastrar(selec);
+                    validarLocarDev();
                 }
             }
 
-            function buttonEditAbilitDesabilit(select) {
+// Habilitar butões
+
+            function buttonEdit(select) {
 
                 if (select == 0) {
                     if (editar == 0) {
@@ -140,51 +162,112 @@ require_once '../cabecalho.php';
                 }
             }
 
-            function buttonLocarDevolvExcluir(select) {
+            function buttonExcluir(selec) {
 
-                if (select == 0) {
-                    if (excluirLocar == 0) {
-                        excluirLocar += 1;
-                        document.getElementById("excluir").innerHTML = " <input name=\"excluir\" class=\"btn btn-danger chax\" type=\"submit\" value=\"Excluir\"/>";
+                if (selec == 0) {
+                    if (excluir == 0) {
 
-                        document.getElementById("locDev").innerHTML = "  <input name=\"locDev\" class=\"btn btn-danger chax\" type=\"submit\" value=\"Locar/Devolver\"/>";
+                        excluir += 1;
+                        document.getElementById("excluir").innerHTML = " <input name=\"excluir@chv\" class=\"btn btn-danger chax\" type=\"submit\" value=\"Excluir\"/>";
 
                     } else {
-                        excluirLocar += 1;
+                        excluir += 1;
                     }
 
                 } else {
 
-                    excluirLocar -= 1;
-                    if (excluirLocar > 0) {
-                        document.getElementById("excluir").innerHTML = " <input name=\"excluir\" class=\"btn btn-danger chax\" type=\"submit\" value=\"Excluir\"/>";
+                    excluir -= 1;
+                    if (excluir > 0) {
+                        document.getElementById("excluir").innerHTML = " <input name=\"excluir@chv\" class=\"btn btn-danger chax\" type=\"submit\" value=\"Excluir\"/>";
 
-                        document.getElementById("locDev").innerHTML = "  <input name=\"locDev\" class=\"btn btn-danger chax\" type=\"submit\" value=\"Locar/Devolver\"/>";
                     } else {
-                        document.getElementById("excluir").innerHTML = " <input name=\"excluir\" class=\"btn btn-danger chax\" type=\"submit\" value=\"Excluir\" disabled/>";
+                        document.getElementById("excluir").innerHTML = " <input name=\"excluir@chv\" class=\"btn btn-danger chax\" type=\"submit\" value=\"Excluir\" disabled/>";
 
-                        document.getElementById("locDev").innerHTML = "  <input name=\"locDev\" class=\"btn btn-danger chax\" type=\"submit\" value=\"Locar/Devolver\" disabled/>";
                     }
                 }
+            }
+
+            function buttonLocar(select) {
+
+                if (select == 0) {
+                    if (Locar == 0) {
+                        Locar += 1;
+
+                        document.getElementById("loc").innerHTML = "  <input name=\"loc@chave\" class=\"btn btn-danger chax\" type=\"submit\" value=\"Locar\"/>";
+
+                    } else {
+                        Locar += 1;
+                    }
+
+                } else {
+
+                    Locar -= 1;
+                    if (Locar > 0) {
+
+                        document.getElementById("loc").innerHTML = "  <input name=\"loc@chave\" class=\"btn btn-danger chax\" type=\"submit\" value=\"Locar\" />";
+                    } else {
+
+                        document.getElementById("loc").innerHTML = "  <input name=\"loc@chave\" class=\"btn btn-danger chax\" type=\"submit\" value=\"Locar\" disabled/>";
+                    }
+                }
+            }
+
+            function buttonDevolv(selec) {
+
+                if (selec == 0) {
+                    if (Dev == 0) {
+                        Dev += 1;
+
+                        document.getElementById("devolv").innerHTML = "  <input name=\"dev@chave\" class=\"btn btn-danger chax\" type=\"submit\" value=\"Devolver\"/>";
+
+                    } else {
+                        Dev += 1;
+                    }
+
+                } else {
+
+                    Dev -= 1;
+                    if (Dev > 0) {
+
+                        document.getElementById("devolv").innerHTML = "  <input name=\"dev@chave\" class=\"btn btn-danger chax\" type=\"submit\" value=\"Devolver\" />";
+                    } else {
+
+                        document.getElementById("devolv").innerHTML = "  <input name=\"dev@chave\" class=\"btn btn-danger chax\" type=\"submit\" value=\"Devolver\" disabled/>";
+                    }
+                }
+
             }
 
             function buttonCadastrar(selec) {
-            
-                if(selec == 0){
-                    cadastrar +=1;
-                    document.getElementById("cadastrar").innerHTML = "  <input name=\"cadastrar\" class=\"btn btn-danger chax\" type=\"submit\" value=\"Cadastrar\" disabled/>";
-                }
-                else{
-                    cadastrar -=1;
-                    if(cadastrar == 0){
-                         document.getElementById("cadastrar").innerHTML = "  <input name=\"cadastrar\" class=\"btn btn-danger chax\" type=\"submit\" value=\"Cadastrar\"/>";
+
+                if (selec == 0) {
+                    cadastrar += 1;
+                    document.getElementById("cadastrar").innerHTML = "  <input name=\"cadt@chv\" class=\"btn btn-danger chax\" type=\"submit\" value=\"Cadastrar\" disabled/>";
+                } else {
+                    cadastrar -= 1;
+                    if (cadastrar == 0) {
+                        document.getElementById("cadastrar").innerHTML = "  <input name=\"cadt@chv\" class=\"btn btn-danger chax\" type=\"submit\" value=\"Cadastrar\"/>";
                     }
-                }                 
+                }
             }
 
+            function validarLocarDev() {
 
+                if (Dev != 0 && Locar != 0) {
+                    document.getElementById("loc").innerHTML = "  <input name=\"loc@chave\" class=\"btn btn-danger chax\" type=\"submit\" value=\"Locar\" disabled/>";
+                    document.getElementById("devolv").innerHTML = "  <input name=\"dev@chave\" class=\"btn btn-danger chax\" type=\"submit\" value=\"Devolver\" disabled/>";
+                }
 
+                if (Locar > 0 && Dev == 0) {
+                    document.getElementById("loc").innerHTML = "  <input name=\"loc@chave\" class=\"btn btn-danger chax\" type=\"submit\" value=\"Locar\"/>";
 
+                }
+                if (Dev > 0 && Locar == 0) {
+
+                    document.getElementById("devolv").innerHTML = "  <input name=\"dev@chave\" class=\"btn btn-danger chax\" type=\"submit\" value=\"Devolver\" />";
+                }
+
+            }
 
 
         </script>
@@ -208,7 +291,7 @@ require_once '../cabecalho.php';
                     <div>
 
                         <h2>Chaves</h2>
-
+                        
                     </div>
 
                     <div class="jumbotron col-xs-12 col-sm-12"> 
@@ -217,15 +300,22 @@ require_once '../cabecalho.php';
 
                                 <div class="container" >
 
-                                    <div id="locDev" class="btn" >
+                                    <div id="loc" class="btn" >
 
-                                        <input name="locDev" class="btn btn-danger chax " type="submit" value="Locar/Devolver"  disabled/>
+                                        <input name="loc@chave" class="btn btn-danger chax" type="submit" value="Locar"  disabled/>
 
                                     </div>
 
+                                    <div id="devolv" class="btn" >
+
+                                        <input name="dev@chave" class="btn btn-danger chax" type="submit" value="Devolver"  disabled/>
+
+                                    </div>
+
+
                                     <div id="cadastrar" class="btn" >
 
-                                        <input name="cadt" class="btn btn-danger chax" type="submit" value="Cadastrar"/>
+                                        <input name="cadt@chv" class="btn btn-danger chax" type="submit" value="Cadastrar"/>
 
                                     </div>
 
@@ -242,20 +332,28 @@ require_once '../cabecalho.php';
                                     </div>
                                 </div>
 
-
-
                                 <fieldset>
 
                                     <?php chaves(); ?>
 
                                 </fieldset>
 
-
                             </form>
                     </div>
 
                 </div>
 
+
+                <table class="table">
+                    <tr>
+                        <th> Chave </th>
+                        <th> Locador </th>
+                        <th> Horario </th>
+                    </tr>
+
+                    <?php chaveLocada(); ?>
+
+                </table>
 
         </section>
 
@@ -280,7 +378,7 @@ function chaves() {
         while ($row = $result->fetch_assoc()) {
 
             // delimita o tamanho maximo do nome da chave q ira apararecer na tela, no caso são 7 charater 
-            $e = substr($row["chave"], 0, 7);
+            $e = substr($row["chave"], 0, 6);
 
             if ($row["status"] == 0) {
 
@@ -312,6 +410,41 @@ function chaves() {
         }
     } else {
         echo "0 results";
+    }
+    $con->close();
+}
+
+function chaveLocada() {
+
+// conectar com o bando de dados.
+    $con = conexao();
+// A variavel $result pega as varias $login e $senha, faz uma pesquisa na tabela de usuarios
+    $sql = "SELECT * FROM locacao";
+
+    $result = $con->query($sql);
+
+    if ($result->num_rows > 0) {
+
+        while ($row = $result->fetch_assoc()) {
+
+            // delimita o tamanho maximo do nome da chave q ira apararecer na tela, no caso são 7 charater 
+            // $e = substr($row["chave"], 0, 6);
+
+            if ($row["statusLoc"] == 1) {
+
+                $sql = "SELECT * FROM chaves WHERE idchave=" . $row["idChave"];
+                $result2 = $con->query($sql);
+                $row2 = $result2->fetch_assoc();
+
+                echo " <tr>
+                            <td>" . $row2["chave"] . " </td>
+                            <td>" . $row["nomeLocador"] . "</td>
+                            <td> " . $row["horaPeg"] . "</td>
+                        </tr>      ";
+            }
+        }
+    } else {
+        echo " ";
     }
     $con->close();
 }
